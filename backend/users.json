@@ -1,1 +1,1 @@
-[{"id":1,"username":"jack","email":"jack@jack.jack","password":"hello","age":99,"profilepicture":""},{"id":2,"username":"john","email":"john@john.john","password":"yoyo","age":1,"profilepicture":""}]
+[{"id":1,"username":"jack","email":"jack@jack.jack","password":"hello","age":99,"profilepicture":"","profile_picture":"http://localhost:5000/jack-06-01-2022-10-20-10.jpg"},{"id":2,"username":"john","email":"john@john.john","password":"yoyo","age":1,"profilepicture":""}]

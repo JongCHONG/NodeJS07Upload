@@ -14,6 +14,9 @@ app.use(cors({
   credentials: true
 }))
 
+// on rend accessible/publique le dossier /public
+app.use(express.static('public'))
+
 app.use(express.json())
 
 app.use(session({
