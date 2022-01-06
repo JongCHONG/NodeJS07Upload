@@ -36,9 +36,10 @@ const Signup = () => {
       // on va créer notre utilisateur dans le backend    
       const newValues = {
         ...values,
-        photo: formik.values.photo.name
+        photo: formik.values.photo
       }
       console.log("e", newValues)
+      //il faut créer l'utilisateur ensuite tu upload son image, puis navigate
       fetch('http://localhost:5000/auth/signup', {
         method: 'post',
         headers: {
@@ -215,7 +216,7 @@ const Signup = () => {
                 />
                 <Input
                   type='file'
-                  name='photo'
+                  name='file'
                   // value={formik.values.photo}
                   onChange={handleFileChange}
                 />
