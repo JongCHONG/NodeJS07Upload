@@ -21,25 +21,31 @@ import { SunIcon, LockIcon, EmailIcon, MoonIcon, ViewIcon } from '@chakra-ui/ico
 
 const Signup = () => {
   const navigate = useNavigate()
+  const [file, setFile] = useState(null)
   const [passwordVisible, setPasswordVisible] = useState(true)
-
+  
   const formik = useFormik({
     initialValues: {
       username: "bobby",
       password: "bobbybobby",
       passwordConfirmation: "",
       email: "bobby@bobby.bobby",
-      age: "2",
+      age: "2"
     },
     onSubmit: values => {  
       // on va créer notre utilisateur dans le backend    
+      const newValues = {
+        ...values,
+        photo: formik.values.photo.name
+      }
+      console.log("e", newValues)
       fetch('http://localhost:5000/auth/signup', {
         method: 'post',
         headers: {
           'Content-type': 'application/json'
         },
         credentials: 'include',
-        body: JSON.stringify(values)
+        body: JSON.stringify(newValues)
       })
         .then(response => response.json())
         .then(user => {
@@ -62,6 +68,17 @@ const Signup = () => {
             })
               .then(response => response.json())
               .then(data => {
+                const formdata = new FormData()
+                formdata.append("photo", file, file.name)
+            
+                fetch(`http://localhost:5000/user/${data.id}/file`, {
+                  method: "post",
+                  body: formdata
+                })
+                  .then(response => response.json())
+                  .then(data => {
+                    console.log(data)
+                  })
                 navigate('/admin')
               })
           }
@@ -88,6 +105,11 @@ const Signup = () => {
     setPasswordVisible(!passwordVisible)
   }
 
+  const handleFileChange = (e) => {
+    formik.setFieldValue('photo', e.target.files[0])
+  }
+
+  console.log(formik.values);
   return (
     <Grid templateColumns='repeat(2, 1fr)' h='100vh'>
       <GridItem>
@@ -182,6 +204,22 @@ const Signup = () => {
                 />
               </InputGroup>
               <FormErrorMessage>{formik.errors.age}</FormErrorMessage>
+            </FormControl>
+
+            <FormControl mt={5} >
+              <FormLabel htmlFor='photo'>Photo</FormLabel>
+              <InputGroup>
+                <InputLeftElement
+                  pointerEvents='none'
+                  children={<MoonIcon color='gray.300' />}
+                />
+                <Input
+                  type='file'
+                  name='photo'
+                  // value={formik.values.photo}
+                  onChange={handleFileChange}
+                />
+              </InputGroup>
             </FormControl>
 
             <Button mt={5} w='100%' type='submit' color='white' bg='salmon'>Button</Button>

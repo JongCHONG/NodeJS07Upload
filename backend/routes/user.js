@@ -25,7 +25,6 @@ app.post('/:id/file', upload.single('photo'), (req, res) => {
 
   const time = moment().format("DD-MM-YYYY-hh-mm-ss")
   const photoUrl = `${users[userIndex].username}-${time}.jpg`
-  
   fs.renameSync(req.file.path, `public/${photoUrl}`)
   
   fs.readFile('./users.json', (err, data) => {
